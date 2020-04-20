@@ -1,0 +1,44 @@
+
+
+
+
+int photoresistor = A0;
+int analogvalue;
+
+bool Sun_Stops = false;
+bool Sun_Hits = false;
+
+void setup() {
+    
+    Particle.variable("analogvalue", &analogvalue, INT);
+
+
+}
+
+
+void loop() {
+    
+    analogvalue = analogRead(photoresistor);
+    
+    if (analogvalue > 15 && Sun_Hits == false) {
+        
+        Sun_Hits = true;
+        Sun_Stops = false;
+        Particle.publish("Sun_Hits", "true");
+        
+        } 
+        
+    else if (analogvalue < 15 && Sun_Stops == false) {
+        
+        Sun_Stops = true;
+        Sun_Hits = false;
+        Particle.publish("Sun_Stops", "true");
+        
+        }
+        
+            
+    delay(5000);
+
+
+  // And repeat!
+}
